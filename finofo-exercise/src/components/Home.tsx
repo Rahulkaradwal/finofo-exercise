@@ -18,11 +18,11 @@ function Home() {
 
   return (
     <div className="flex">
-      <div className="w-1/2 border-r p-4">
+      <div className="w-1/2 border-r p-4 h-screen overflow-y-scroll">
         <FruitList addToJar={addToJar} addGroupToJar={addGroupToJar} />
       </div>
 
-      <div className="w-1/2 p-4">
+      <div className="w-1/2 p-4 h-screen overflow-y-scroll">
         <JarList jar={jar} />
       </div>
     </div>

@@ -10,3 +10,23 @@ export const FruitCounts = () => (jar: Fruit[]) =>
     }
     return acc;
   }, {} as Record<string, Fruit & { count: number }>);
+
+// Group fruits by family, order, or genus
+export const GroupFruits = (
+  fruits: Fruit[],
+  groupBy: string
+): Record<string, Fruit[]> => {
+  return fruits.reduce((acc, fruit) => {
+    if (groupBy === "family") {
+      acc[fruit.family] = acc[fruit.family] || [];
+      acc[fruit.family].push(fruit);
+    } else if (groupBy === "order") {
+      acc[fruit.order] = acc[fruit.order] || [];
+      acc[fruit.order].push(fruit);
+    } else if (groupBy === "genus") {
+      acc[fruit.genus] = acc[fruit.genus] || [];
+      acc[fruit.genus].push(fruit);
+    }
+    return acc;
+  }, {} as Record<string, Fruit[]>);
+};

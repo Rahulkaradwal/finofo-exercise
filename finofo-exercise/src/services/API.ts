@@ -7,13 +7,15 @@ export const fetchFruits = async () => {
     const response = await fetch(`${BASE_API_URL}`);
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error("Failed to fetch fruits. Please try again later.");
     }
     const data = await response.json();
 
     return data;
   } catch (error) {
     console.error("Fetch error:", error);
-    throw error;
+    throw new Error(
+      "Failed to load fruit data. Please check your network or try again."
+    );
   }
 };

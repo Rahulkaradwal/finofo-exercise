@@ -6,7 +6,7 @@ type JarListItemProps = {
 
 function JarListItem({ fruitEntries }: JarListItemProps) {
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-2 p-4 h-fit overflow-y-scroll ">
       {fruitEntries.map((fruit) => (
         <li
           key={fruit._id}
