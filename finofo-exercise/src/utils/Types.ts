@@ -19,3 +19,7 @@ export interface Fruit {
 export interface GroupedFruits {
   [key: string]: Fruit[];
 }
+
+export interface FruitWithCount extends Fruit {
+  count: number;
+}
