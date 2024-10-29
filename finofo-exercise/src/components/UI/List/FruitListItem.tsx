@@ -6,13 +6,14 @@ type FruitListItemProps = {
   addToJar: (fruit: Fruit) => void;
 };
 
+const listItemClasses =
+  "flex justify-between items-center bg-gray-100 p-1 sm:p-2 md:p-2 lg:p-3 rounded shadow";
+const textClasses = "text-[10px] sm:text-[12px] md:text-sm";
+
 function FruitListItem({ fruit, addToJar }: FruitListItemProps) {
   return (
-    <li
-      key={fruit._id}
-      className="flex justify-between p-2 my-1 rounded bg-gray-200 items-center"
-    >
-      <span>
+    <li key={fruit._id} className={listItemClasses}>
+      <span className={textClasses}>
         {fruit.name} ({fruit.nutritions.calories} cal)
       </span>
 

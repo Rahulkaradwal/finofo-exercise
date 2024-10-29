@@ -60,9 +60,11 @@ function JarList({ jar }: JarListProps) {
   }, [jar]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Jar Contents</h2>
-      <p className="mb-4">Total calories: {caloryCount}</p>
+    <div className="p-1 sm:p-2 md:p-3 lg:p-4">
+      <h2 className="text-md md:text-xl font-bold mb-4">Jar Contents</h2>
+      <p className="mb-1 sm:mb-2 lg:mb-3  md:mb-4 text-xs sm:text-sm md:text-md">
+        Total calories: {caloryCount}
+      </p>
 
       {fruitEntries.length > 0 ? (
         <>
@@ -70,7 +72,9 @@ function JarList({ jar }: JarListProps) {
 
           {chartData && (
             <div className="mt-4">
-              <h3 className="text-lg font-bold">Calorie Distribution</h3>
+              <h3 className="text-xs sm:text-sm lg:text-lg font-bold">
+                Calorie Distribution
+              </h3>
               <Pie data={chartData} />
             </div>
           )}

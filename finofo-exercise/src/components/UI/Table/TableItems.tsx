@@ -23,7 +23,7 @@ function TableItems({ fruits, addToJar, addGroupToJar }: TableItemsProps) {
           </td>
         </tr>
         {fruits.map((fruit) => (
-          <TableItemList fruit={fruit} addToJar={addToJar} />
+          <TableItemList key={fruit._id} fruit={fruit} addToJar={addToJar} />
         ))}
       </tbody>
     </table>

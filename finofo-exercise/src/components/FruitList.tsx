@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchFruits } from "../services/API";
 import { Fruit } from "../utils/Types";
 import TableItems from "./UI/Table/TableItems";
@@ -18,7 +18,6 @@ interface FruitListProps {
 
 function FruitList({ addToJar, addGroupToJar, view, setView }: FruitListProps) {
   const [fruits, setFruits] = useState<Fruit[]>([]);
-  // const [view, setView] = useState<"table" | "list">("list");
   const [groupBy, setGroupBy] = useState<"none" | "family" | "order" | "genus">(
     "none"
   );
@@ -28,16 +27,14 @@ function FruitList({ addToJar, addGroupToJar, view, setView }: FruitListProps) {
   useEffect(() => {
     const loadFruits = async () => {
       setLoading(true);
-      setError(null); // Reset error state
+      setError(null);
       try {
         const data = await fetchFruits();
         setFruits(data);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Unknown error");
-        }
+        setError(
+          err instanceof Error ? err.message : "An unknown error occurred"
+        );
       } finally {
         setLoading(false);
       }
@@ -45,57 +42,71 @@ function FruitList({ addToJar, addGroupToJar, view, setView }: FruitListProps) {
     loadFruits();
   }, []);
 
-  // function call to group fruits by family, order, or genus
+  // Group fruits based on selected option
   const groupedFruits = GroupFruits(fruits, groupBy);
+
+  // Render the selected list type
+  const renderListContent = useCallback(() => {
+    if (view === "list") {
+      // Render collapsible list if grouped, flat list otherwise
+      return groupBy === "none" ? (
+        <ListItems
+          fruits={fruits}
+          addToJar={addToJar}
+          addGroupToJar={addGroupToJar}
+        />
+      ) : (
+        <CollapsibleList
+          fruits={groupedFruits}
+          addToJar={addToJar}
+          addGroupToJar={addGroupToJar}
+        />
+      );
+    } else if (view === "table") {
+      // Render table view, regardless of grouping
+      return (
+        <TableItems
+          fruits={fruits}
+          addToJar={addToJar}
+          addGroupToJar={addGroupToJar}
+        />
+      );
+    }
+  }, [view, groupBy, fruits, groupedFruits, addToJar, addGroupToJar]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col gap-4 justify-center items-center h-screen text-center">
+        <h1 className="text-xl font-bold">Oops! Something went wrong.</h1>
+        <p className="text-red-600">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <ErrorBoundary>
-      <div className="p-1">
-        {loading ? (
-          <div className="flex justify-center items-center">
-            <Spinner />
-          </div>
-        ) : error ? (
-          <div className="flex gap-4 justify-center flex-col items-center">
-            <h1 className="text-xl font-bold ">Oops! Something went wrong.</h1>
-            <p className="text-red-600">{error}</p>
-          </div>
-        ) : (
-          <>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">Fruit List</h2>
-              <ListOperations
-                value={groupBy}
-                onChange={setGroupBy}
-                setView={setView}
-                view={view}
-              />
-            </div>
-            <div className="overflow-y-scroll h-screen">
-              {groupBy === "none" ? (
-                view === "list" ? (
-                  <ListItems
-                    fruits={fruits}
-                    addToJar={addToJar}
-                    addGroupToJar={addGroupToJar}
-                  />
-                ) : (
-                  <TableItems
-                    fruits={fruits}
-                    addToJar={addToJar}
-                    addGroupToJar={addGroupToJar}
-                  />
-                )
-              ) : (
-                <CollapsibleList
-                  fruits={groupedFruits}
-                  addToJar={addToJar}
-                  addGroupToJar={addGroupToJar}
-                />
-              )}
-            </div>
-          </>
-        )}
+      <div className="p-4  h-screen">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-sm md:text-md lg:text-xl font-bold">
+            Fruit List
+          </h2>
+          <ListOperations
+            value={groupBy}
+            onChange={setGroupBy}
+            setView={setView}
+            view={view}
+            disableGrouping={view === "table"} // Disable grouping in table view
+          />
+        </div>
+        <div className="overflow-y-scroll ]">{renderListContent()}</div>
       </div>
     </ErrorBoundary>
   );

@@ -6,7 +6,7 @@ function Button({ onClick, children }: ButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="px-2  py-1 bg-gray-300 text-black rounded  cursor-pointer transition-all duration-300 hover:bg-gray-400 "
+      className="text-[9px] sm:text-xs md:text-sm px-2  py-1 bg-gray-300 text-black rounded  cursor-pointer transition-all duration-300 hover:bg-gray-400 "
     >
       {children}
     </button>
