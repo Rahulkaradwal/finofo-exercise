@@ -12,11 +12,13 @@ import { GroupFruits } from "../utils/Functions";
 interface FruitListProps {
   addToJar: (fruit: Fruit) => void;
   addGroupToJar: (fruits: Fruit[]) => void;
+  view: "table" | "list";
+  setView: (view: "table" | "list") => void;
 }
 
-function FruitList({ addToJar, addGroupToJar }: FruitListProps) {
+function FruitList({ addToJar, addGroupToJar, view, setView }: FruitListProps) {
   const [fruits, setFruits] = useState<Fruit[]>([]);
-  const [view, setView] = useState<"table" | "list">("list");
+  // const [view, setView] = useState<"table" | "list">("list");
   const [groupBy, setGroupBy] = useState<"none" | "family" | "order" | "genus">(
     "none"
   );
@@ -43,17 +45,19 @@ function FruitList({ addToJar, addGroupToJar }: FruitListProps) {
     loadFruits();
   }, []);
 
+  // function call to group fruits by family, order, or genus
   const groupedFruits = GroupFruits(fruits, groupBy);
 
   return (
     <ErrorBoundary>
-      <div className="p-4">
+      <div className="p-1">
         {loading ? (
           <div className="flex justify-center items-center">
             <Spinner />
           </div>
         ) : error ? (
-          <div className="flex justify-center items-center">
+          <div className="flex gap-4 justify-center flex-col items-center">
+            <h1 className="text-xl font-bold ">Oops! Something went wrong.</h1>
             <p className="text-red-600">{error}</p>
           </div>
         ) : (

@@ -10,13 +10,15 @@ type TableItemsProps = {
 };
 
 function TableItems({ fruits, addToJar, addGroupToJar }: TableItemsProps) {
+  const cellClasses = "border p-1 text-[6px]  sm:text-[8px] md:text-sm";
+
   return (
-    <table className="min-w-full bg-white">
+    <table className="text-[10px] md:text-xs lg:text-sm w-full table-fixed bg-white">
       <TableHeader />
       <tbody>
         <tr>
           <td colSpan={5}></td>
-          <td className="border px-4 py-2 text-center">
+          <td className={`${cellClasses} flex justify-end items-center`}>
             <Button onClick={() => addGroupToJar(fruits)}>Add All</Button>
           </td>
         </tr>

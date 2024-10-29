@@ -5,15 +5,20 @@ type TableItemListProps = {
   fruit: Fruit;
   addToJar: (fruit: Fruit) => void;
 };
+
+// Define a variable for shared Tailwind classes
+const cellClasses =
+  "border p-1 overflow-x-auto  text-[6px] sm:text-[8px] md:text-sm";
+
 function TableItemList({ fruit, addToJar }: TableItemListProps) {
   return (
-    <tr key={fruit._id}>
-      <td className="border px-4 py-2">{fruit.name}</td>
-      <td className="border px-4 py-2">{fruit.family}</td>
-      <td className="border px-4 py-2">{fruit.order}</td>
-      <td className="border px-4 py-2">{fruit.genus}</td>
-      <td className="border px-4 py-2">{fruit.nutritions.calories}</td>
-      <td className="border px-4 py-2">
+    <tr>
+      <td className={cellClasses}>{fruit.name}</td>
+      <td className={cellClasses}>{fruit.family}</td>
+      <td className={cellClasses}>{fruit.order}</td>
+      <td className={cellClasses}>{fruit.genus}</td>
+      <td className={cellClasses}>{fruit.nutritions.calories}</td>
+      <td className={`${cellClasses} flex justify-end items-center`}>
         <Button onClick={() => addToJar(fruit)}>Add</Button>
       </td>
     </tr>

@@ -5,6 +5,7 @@ import { Fruit } from "../utils/Types";
 
 function Home() {
   const [jar, setJar] = useState<Fruit[]>([]);
+  const [view, setView] = useState<"table" | "list">("list");
 
   // Add a fruit to the jar
   const addToJar = (fruit: Fruit) => {
@@ -17,12 +18,27 @@ function Home() {
   };
 
   return (
-    <div className="flex">
-      <div className="w-1/2 border-r p-4 h-screen overflow-y-scroll">
-        <FruitList addToJar={addToJar} addGroupToJar={addGroupToJar} />
+    <div className="flex h-screen">
+      {/* Left Section - Fruit List */}
+      <div
+        className={`${
+          view === "table" ? "w-2/3" : "w-1/2"
+        } border-r p-1 sm:p-2 md:p-3 lg:p-4 h-full overflow-y-scroll`}
+      >
+        <FruitList
+          addToJar={addToJar}
+          addGroupToJar={addGroupToJar}
+          view={view}
+          setView={setView}
+        />
       </div>
 
-      <div className="w-1/2 p-4 h-screen overflow-y-scroll">
+      {/* Right Section - Jar List */}
+      <div
+        className={`${
+          view === "table" ? "w-1/3" : "w-1/2"
+        } p-1 sm:p-2 md:p-3 lg:p-4 h-full overflow-y-scroll`}
+      >
         <JarList jar={jar} />
       </div>
     </div>
