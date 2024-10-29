@@ -93,11 +93,8 @@ function FruitList({ addToJar, addGroupToJar, view, setView }: FruitListProps) {
 
   return (
     <ErrorBoundary>
-      <div className="p-4  h-screen">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-sm md:text-md lg:text-xl font-bold">
-            Fruit List
-          </h2>
+      <div className="p-2 md:p-3 lg:p-4  h-screen">
+        <div className="flex  justify-between items-center mb-4">
           <ListOperations
             value={groupBy}
             onChange={setGroupBy}

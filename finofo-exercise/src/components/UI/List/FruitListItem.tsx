@@ -7,7 +7,7 @@ type FruitListItemProps = {
 };
 
 const listItemClasses =
-  "flex justify-between items-center bg-gray-100 p-1 sm:p-2 md:p-2 lg:p-3 rounded shadow";
+  "flex justify-between  items-center bg-gray-100 p-1 sm:p-2 md:p-2 lg:p-3 rounded shadow";
 const textClasses = "text-[10px] sm:text-[12px] md:text-sm";
 
 function FruitListItem({ fruit, addToJar }: FruitListItemProps) {
