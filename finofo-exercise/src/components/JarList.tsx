@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Fruit } from "../utils/Types";
 import { FruitCounts } from "../utils/Functions";
 import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  ChartData,
+} from "chart.js";
 import JarListItem from "./UI/List/JarListItem";
 
 // Register necessary chart.js elements
@@ -14,7 +20,26 @@ interface JarListProps {
 
 function JarList({ jar }: JarListProps) {
   const [caloryCount, setCaloryCount] = useState(0);
-  const [chartData, setChartData] = useState<unknown>(null);
+  const [chartData, setChartData] = useState<
+    ChartData<"pie", number[], unknown>
+  >({
+    labels: [],
+    datasets: [
+      {
+        label: "Calorie Distribution",
+        data: [],
+        backgroundColor: [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+        ],
+        hoverOffset: 4,
+      },
+    ],
+  });
 
   // Count the occurrences of each fruit in the jar
   const fruitCounts = FruitCounts()(jar);
@@ -55,14 +80,31 @@ function JarList({ jar }: JarListProps) {
       });
     } else {
       setCaloryCount(0);
-      setChartData(null);
+      setChartData({
+        labels: [],
+        datasets: [
+          {
+            label: "Calorie Distribution",
+            data: [],
+            backgroundColor: [
+              "#FF6384",
+              "#36A2EB",
+              "#FFCE56",
+              "#4BC0C0",
+              "#9966FF",
+              "#FF9F40",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      });
     }
   }, [jar]);
 
   return (
     <div className="p-1 sm:p-2 md:p-3 lg:p-4">
       <h2 className="text-md md:text-xl font-bold mb-4">Jar Contents</h2>
-      <p className="mb-1 sm:mb-2 lg:mb-3  md:mb-4 text-xs sm:text-sm md:text-md">
+      <p className="mb-1 sm:mb-2 lg:mb-3 md:mb-4 text-xs sm:text-sm md:text-md">
         Total calories: {caloryCount}
       </p>
 
