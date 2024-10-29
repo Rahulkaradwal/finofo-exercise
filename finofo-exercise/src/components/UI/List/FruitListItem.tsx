@@ -8,7 +8,10 @@ type FruitListItemProps = {
 
 function FruitListItem({ fruit, addToJar }: FruitListItemProps) {
   return (
-    <li key={fruit._id} className="flex justify-between items-center">
+    <li
+      key={fruit._id}
+      className="flex justify-between p-2 my-1 rounded bg-gray-200 items-center"
+    >
       <span>
         {fruit.name} ({fruit.nutritions.calories} cal)
       </span>

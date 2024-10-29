@@ -1,6 +1,8 @@
 import React from "react";
 import Collapsible from "react-collapsible";
 import { Fruit } from "../../../utils/Types";
+import Button from "../Button";
+import FruitListItem from "./FruitListItem";
 
 type CollapsibleListProps = {
   fruits: Record<string, Fruit[]>;
@@ -8,11 +10,11 @@ type CollapsibleListProps = {
   addGroupToJar: (fruits: Fruit[]) => void;
 };
 
-const CollapsibleList: React.FC<CollapsibleListProps> = ({
+function CollapsibleList({
   fruits,
   addToJar,
   addGroupToJar,
-}) => {
+}: CollapsibleListProps) {
   return (
     <div className="space-y-2">
       {Object.entries(fruits).map(([groupName, fruitsInGroup]) => (
@@ -21,34 +23,23 @@ const CollapsibleList: React.FC<CollapsibleListProps> = ({
           trigger={`${groupName} (${fruitsInGroup.length} items)`}
           className="border border-gray-300 rounded-md p-2 bg-gray-100"
         >
-          <button
-            onClick={() => addGroupToJar(fruitsInGroup)}
-            className="px-3 py-1 mb-2 text-white bg-green-500 rounded-md"
-          >
-            Add All {groupName} to Jar
-          </button>
+          <Button onClick={() => addGroupToJar(fruitsInGroup)}>
+            Add All {groupName}
+          </Button>
+
           <ul className="pl-4">
             {fruitsInGroup.map((fruit) => (
-              <li
+              <FruitListItem
                 key={fruit._id}
-                className="flex justify-between items-center p-2 bg-gray-200 rounded my-1"
-              >
-                <span>
-                  {fruit.name} ({fruit.nutritions.calories} cal)
-                </span>
-                <button
-                  onClick={() => addToJar(fruit)}
-                  className="px-2 py-1 text-white bg-blue-500 rounded"
-                >
-                  Add
-                </button>
-              </li>
+                fruit={fruit}
+                addToJar={addToJar}
+              />
             ))}
           </ul>
         </Collapsible>
       ))}
     </div>
   );
-};
+}
 
 export default CollapsibleList;
